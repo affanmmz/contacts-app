@@ -1,9 +1,17 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import Joi from 'joi';
+import { validateProps } from '../utils/validation';
+
+
+const contactInputPropsSchema = Joi.object({
+  addContact: Joi.func().required(),
+});
 
 class ContactInput extends React.Component {
     constructor(props) {
         super(props);
+
+         const validatedProps = validateProps(contactInputPropsSchema, props, 'ContactInput');
 
         //inisialisasi state
         this.state = {
@@ -34,7 +42,9 @@ class ContactInput extends React.Component {
 
     onSubmitEventHandler(event) {
         event.preventDefault();
-        this.props.addContact(this.state)
+
+    const { addContact } = this.state.validatedProps;
+    addContact(this.state);
     }
 
     render() {
@@ -48,8 +58,6 @@ class ContactInput extends React.Component {
     }
 }
 
-ContactInput.propTypes = {
- addContact: PropTypes.func.isRequired,
-}
+
 
 export default ContactInput;

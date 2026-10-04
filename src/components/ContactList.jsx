@@ -1,8 +1,25 @@
-import React from "react";
-import PropTypes from "prop-types";
-import ContactItem from "./ContactItem";
+import React from 'react';
+import Joi from 'joi';
+import ContactItem from './ContactItem';
+import { validateProps } from '../utils/validation';
 
-function ContactList({ contacts, onDelete }) {
+const contactListPropsSchema = Joi.object({
+  contacts: Joi.array().items(
+    Joi.object({
+      id: Joi.number().required(),
+      name: Joi.string().required(),
+      tag: Joi.string().required(),
+      imageUrl: Joi.string().required(),
+    })
+  ).required(),
+  onDelete: Joi.func().required(),
+});
+
+function ContactList(props) {
+    const validatedProps = validateProps(contactListPropsSchema, props, 'ContactList');
+    const { contacts, onDelete } = validatedProps;
+
+
     return (
         <div className="contact-list">
             {
@@ -16,11 +33,6 @@ function ContactList({ contacts, onDelete }) {
             }
         </div>
     );
-}
-
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onDelete: PropTypes.func.isRequired,
 }
 
 export default ContactList;
