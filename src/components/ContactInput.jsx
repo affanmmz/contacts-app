@@ -35,17 +35,20 @@ class ContactInput extends React.Component {
     onTagChangeEventHandler(event) {
         this.setState(() => {
             return {
-                email: event.target.value
+                tag: event.target.value
             }
         })
     }
 
     onSubmitEventHandler(event) {
-        event.preventDefault();
+    event.preventDefault();
 
-    const { addContact } = this.state.validatedProps;
-    addContact(this.state);
-    }
+    const { addContact } = this.props;
+    addContact({
+        name: this.state.name,
+        tag: this.state.tag,
+    });
+}
 
     render() {
         return (
