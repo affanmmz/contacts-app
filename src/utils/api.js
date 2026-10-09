@@ -60,7 +60,7 @@ async function getUserLogged() {
   const response = await fetchWithToken(`${BASE_URL}/users/me`);
   const responseJson = await response.json();
 
-  if (responseJson !== 'success') {
+  if (responseJson.status !== "success") {
     return { error: true, data: null };
   }
 
@@ -68,58 +68,58 @@ async function getUserLogged() {
 }
 
 async function addContact({ name, tag }) {
-    const response = await fetchWithToken(`${BASE_URL}/contacts`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, tag }),
-    });
+  const response = await fetchWithToken(`${BASE_URL}/contacts`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name, tag }),
+  });
 
-    const responseJson = await response.json();
+  const responseJson = await response.json();
 
-    if(responseJson.status !== 'success') {
-        alert(responseJson.message);
-        return { error: true };
-    }
+  if (responseJson.status !== "success") {
+    alert(responseJson.message);
+    return { error: true };
+  }
 
-    return { error: false };
+  return { error: false };
 }
 
 async function getContacts() {
-    const response = await fetchWithToken(`${BASE_URL}/contacts`);
-    const responseJson = await response.json();
+  const response = await fetchWithToken(`${BASE_URL}/contacts`);
+  const responseJson = await response.json();
 
-    if (responseJson.status !== 'success') {
-        alert(responseJson.message);
-        return { error: true, data: [] };
-    }
+  if (responseJson.status !== "success") {
+    alert(responseJson.message);
+    return { error: true, data: [] };
+  }
 
-    return { error: false, data: responseJson.data };
+  return { error: false, data: responseJson.data };
 }
 
 async function deleteContact(id) {
-    const response = await fetchWithToken(`${BASE_URL}/contacts/${id}`, {
-        method: 'DETELE',
-    });
-    
-    const responseJson = response.json();
+  const response = await fetchWithToken(`${BASE_URL}/contacts/${id}`, {
+    method: "DELETE",
+  });
 
-    if (responseJson.status !== 'success') {
-        alert(responseJson.message);
-        return { error: true };
-    }
+  const responseJson = await response.json();
 
-    return { error: false };
+  if (responseJson.status !== "success") {
+    alert(responseJson.message);
+    return { error: true };
+  }
+
+  return { error: false };
 }
 
 export {
-    getAccessToken,
-    putAccessToken,
-    login,
-    register,
-    getUserLogged,
-    addContact,
-    getContacts,
-    deleteContact
-}
+  getAccessToken,
+  putAccessToken,
+  login,
+  register,
+  getUserLogged,
+  addContact,
+  getContacts,
+  deleteContact,
+};
